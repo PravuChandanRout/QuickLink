@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import * as yup from "yup";
 import useFetch from "@/hooks/useFetch";
 import { login } from "@/db/apiAuth";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { UrlState } from "@/context/context";
 
 const Login = () => {
   const [errors, setErrors] = useState([]);
@@ -37,10 +38,12 @@ const Login = () => {
   };
 
   const { data, error, loading, func: loginFunc } = useFetch(login, formdata);
+  const { fetchUser } = UrlState();
 
   useEffect(() => {
     if (error === null && data) {
       navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+      fetchUser();
     }
   }, [data, error]);
 
