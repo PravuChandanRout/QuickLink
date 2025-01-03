@@ -23,7 +23,7 @@ const Header = () => {
 
       <div>
         {!user ? (
-          <Button onClick={() => navigate("/auth")}>Login</Button>
+          <Button variant="destructive" onClick={() => navigate("/auth")}>Login</Button>
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden">
