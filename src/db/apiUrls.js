@@ -63,7 +63,7 @@ export async function createUrl(
 }
 
 export async function getLongUrl(id) {
-  let {data: shortLinkData, error: shortLinkError} = await supabase
+  let { data: shortLinkData, error: shortLinkError } = await supabase
     .from("urls")
     .select("id, original_url")
     .or(`short_url.eq.${id},custom_url.eq.${id}`)
@@ -71,7 +71,23 @@ export async function getLongUrl(id) {
 
   if (shortLinkError) {
     console.error(error.message);
-    throw new Error("Error fetching short link")
+    throw new Error("Error fetching short link");
+  }
+
+  return shortLinkData;
+}
+
+export async function getUrl({ id, user_id }) {
+  let { data: shortLinkData, error: shortLinkError } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user_id)
+    .single();
+
+  if (shortLinkError) {
+    console.error(error.message);
+    throw new Error("Short Url not found!");
   }
 
   return shortLinkData;
